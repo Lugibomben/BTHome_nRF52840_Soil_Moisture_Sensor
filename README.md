@@ -8,6 +8,7 @@ and broadcasts the values as a BTHome v2 Bluetooth Low Energy advertisement.
 
 The board spends almost all of its time in deep sleep, making it suitable for battery-powered plant sensors.  
 The firmware works with Home Assistant through an ESPHome Bluetooth Proxy or any BTHome-compatible receiver.  
+The board is designed to automatically charge a 3.7V lithium battery, when the USB is connected.
 
 **Features**  
     • BTHome v2 BLE advertisements   
@@ -29,7 +30,7 @@ Required components:
     • External battery   
     • Two resistors for the battery divider (recommended 1MΩ + 1MΩ 1/4W)  
     • Optional 3D printed shell
-    [Cults3D with LIPO](https://cults3d.com/en/3d-model/gadget/nrf52840-bthome-soil-moisture-sensor-shell-for-lipo-battery-d8777e824314d30741bd)  
+    [Cults3D with LIPO](https://cults3d.com/en/3d-model/gadget/nrf52840-bthome-soil-moisture-sensor-shell-for-lipo-battery)  
 
 Example wiring:  
 
@@ -82,7 +83,6 @@ Normally there is no need to modify code.py.
 
 **BTHome Encryption**  
 Encryption is optional but recommended.  
-
 Enable it by setting: ENCRYPT = True  
 
 Generate a random 16-byte key with:  
@@ -91,9 +91,13 @@ print(os.urandom(16).hex())
 
 or simply run: Key_generator.py  
 
+Or use an on line service
+
 Copy the generated key into: ENCRYPTION_KEY = bytes.fromhex("...")  
 
 The same key must be entered as the Bindkey when adding the device to Home Assistant.  
+
+![alt text](image-3.png)
 
 **Battery Calibration**  
 The firmware measures battery voltage through an external resistor divider.   
