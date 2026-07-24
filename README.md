@@ -1,4 +1,4 @@
-**nRF52840 BTHome Soil Moisture Sensor**  
+**nRF52840 BTHome Soil Moisture Sensor beta version!**  
 
 A low-power CircuitPython firmware for the SuperMini / ProMicro nRF52840 that periodically measures:  
     • 🌱 Soil moisture   
