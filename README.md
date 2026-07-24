@@ -5,6 +5,8 @@ A low-power CircuitPython firmware for the SuperMini / ProMicro nRF52840 that pe
     • 🔋 Battery voltage   
     • 🌡 MCU temperature   
 and broadcasts the values as a BTHome v2 Bluetooth Low Energy advertisement.  
+https://bthome.io/  
+https://www.home-assistant.io/integrations/bthome/  
 
 The board spends almost all of its time in deep sleep, making it suitable for battery-powered plant sensors.  
 The firmware works with Home Assistant through an ESPHome Bluetooth Proxy or any BTHome-compatible receiver.  
@@ -25,12 +27,14 @@ Designed for inexpensive nRF52840 SuperMini / ProMicro boards running CircuitPyt
 Required components:  
     • nRF52840 SuperMini / ProMicro
     [Aliexpress](https://it.aliexpress.com/item/1005007078900079.html?spm=a2g0o.order_list.order_list_main.10.580d1802PlGF7N&gatewayAdapt=glo2ita)   
+    ![Boards image](Images/Boards.png)  
     • Capacitive soil moisture sensor
     [Aliexpress](https://it.aliexpress.com/item/1005007353966390.html?spm=a2g0o.order_list.order_list_main.26.49861802s5ppiQ&gatewayAdapt=glo2ita)   
     • External battery   
     • Two resistors for the battery divider (recommended 1MΩ + 1MΩ 1/4W)  
-    • Optional 3D printed shell
+    • Optional 3D printed shell  
     [Cults3D with LIPO](https://cults3d.com/en/3d-model/gadget/nrf52840-bthome-soil-moisture-sensor-shell-for-lipo-battery)  
+    ![Lipo sensor image](Images/Lipo_sensor_image.png)
 
 Example wiring:  
 
@@ -40,8 +44,6 @@ Example wiring:
 | Soil sensor VCC          | `SENSOR_POWER_PIN` |  
 | Soil sensor GND          | GND                |  
 | Battery divider midpoint | `BATTERY_ADC_PIN`  |  
-
-![alt text](image-1.png) ![alt text](image-2.png)
 
 Battery divider:  
 
@@ -56,6 +58,8 @@ BATTERY_ADC_PIN
   GND  
 
 The onboard BAT_VOLT input is intentionally not used because on these clone boards it often follows VDD rather than the actual battery voltage when running from battery power.  
+
+![Board image 1](Images/Board_1.png) ![Board image 2](Images/Board_2.png)
 
 **Installation**  
 Copy the following files onto the CIRCUITPY drive:   
@@ -97,7 +101,7 @@ Copy the generated key into: ENCRYPTION_KEY = bytes.fromhex("...")
 
 The same key must be entered as the Bindkey when adding the device to Home Assistant.  
 
-![alt text](image-3.png)
+![Immagine 3](Images/Key.png)
 
 **Battery Calibration**  
 The firmware measures battery voltage through an external resistor divider.   
