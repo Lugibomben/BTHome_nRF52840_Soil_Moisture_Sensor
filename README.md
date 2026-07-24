@@ -36,6 +36,7 @@ Example wiring:
 | Soil sensor GND          | GND                |  
 | Battery divider midpoint | `BATTERY_ADC_PIN`  |  
 
+![alt text](image-1.png) ![alt text](image-2.png)
 
 Battery divider:  
 
