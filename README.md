@@ -22,10 +22,14 @@ The firmware works with Home Assistant through an ESPHome Bluetooth Proxy or any
 **Hardware**  
 Designed for inexpensive nRF52840 SuperMini / ProMicro boards running CircuitPython.  
 Required components:  
-    • nRF52840 SuperMini / ProMicro   
-    • Capacitive soil moisture sensor   
+    • nRF52840 SuperMini / ProMicro
+    [Aliexpress](https://it.aliexpress.com/item/1005007078900079.html?spm=a2g0o.order_list.order_list_main.10.580d1802PlGF7N&gatewayAdapt=glo2ita)   
+    • Capacitive soil moisture sensor
+    [Aliexpress](https://it.aliexpress.com/item/1005007353966390.html?spm=a2g0o.order_list.order_list_main.26.49861802s5ppiQ&gatewayAdapt=glo2ita)   
     • External battery   
-    • Two resistors for the battery divider (recommended 1 MΩ + 1 MΩ)  
+    • Two resistors for the battery divider (recommended 1MΩ + 1MΩ 1/4W)  
+    • Optional 3D printed shell
+    [Cults3D with LIPO](https://cults3d.com/en/3d-model/gadget/nrf52840-bthome-soil-moisture-sensor-shell-for-lipo-battery-d8777e824314d30741bd)  
 
 Example wiring:  
 
