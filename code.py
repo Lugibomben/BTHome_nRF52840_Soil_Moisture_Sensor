@@ -1,30 +1,14 @@
-# CircuitPython port of the ESP32-C3 MicroPython soil-moisture sensor firmware.
-# Target: Adafruit ProMicro nRF52840 (CircuitPython)
+# CircuitPython firmware for a BTHome soil moisture sensor.
+# Target: SuperMini / ProMicro nRF52840 (CircuitPython)
 #
-# Behavior is unchanged: read soil moisture + battery + die temperature once,
-# broadcast a BTHome v2 BLE advertisement for ESPHome's Bluetooth proxy to pick
-# up, then deep-sleep for SLEEP_S seconds and reboot to repeat.
+# Reads soil moisture, battery voltage, and the MCU die temperature,
+# then broadcasts the measurements as a BTHome v2 BLE advertisement
+# for Home Assistant (via an ESPHome Bluetooth Proxy or any compatible
+# BTHome receiver). The board then enters deep sleep for SLEEP_S seconds
+# before waking up and repeating the cycle.
 #
-# ── Porting notes (read before flashing) ───────────────────────────────────
-# 1. ADC resolution changed 12-bit (0-4095, ESP32) -> 16-bit (0-65535, nRF52840).
-#    DRY_VAL / WET_VAL / battery math below have been rescaled by 16x, but you
-#    MUST re-run the dry/wet calibration procedure on the actual nRF52840 board
-#    -- raw ADC counts are not guaranteed to scale linearly the same way.
-# 2. There's no `machine.deepsleep()` equivalent; CircuitPython uses the
-#    `alarm` module. `alarm.exit_and_deep_sleep_until_alarms()` resets the
-#    board on wake, so execution restarts from the top of this file (that's
-#    the CircuitPython equivalent of ESP32's deep-sleep-then-reboot).
-# 3. No native `bluetooth`/BTHome helper library ships with CircuitPython, so
-#    this builds the same raw BTHome v2 advertising payload as the original
-#    and sends it with the low-level `_bleio.adapter.start_advertising(...)`,
-#    which (like the ESP32 version) accepts raw bytes directly.
-# 4. `esp32.mcu_temperature()` -> `microcontroller.cpu.temperature` (nRF52840
-#    has an on-die temperature sensor CircuitPython exposes the same way).
-# 5. Pin names (SOIL_ADC_PIN / BATTERY_ADC_PIN / SENSOR_POWER_PIN below) use
-#    `board.*` names and are configured in config.py. BATTERY_ADC_PIN uses the
-#    board's battery monitor input, while SENSOR_POWER_PIN is a GPIO (P0.17 in
-#    this hardware revision) used to power the soil sensor directly. SOIL_ADC_PIN
-#    can be any available analog input.
+# Pin assignments (SOIL_ADC_PIN, BATTERY_ADC_PIN, SENSOR_POWER_PIN)
+# are configured in config.py using board.* pin names.
 
 import time
 import board
@@ -40,14 +24,8 @@ from config import *
 ADC_SAMPLES  = 10
 ADC_DELAY_S  = 0.01
 
-# --- Battery voltage: using the board's ONBOARD divider (board.BAT_VOLT) ---
-# instead of an external resistor divider. Since we don't populate the
-# divider ourselves, we don't know its exact ratio -- calibrate it
-# empirically the same way as before:
-#   1. Flash, open serial, read the printed "Battery raw ADC" value.
-#   2. Measure the real battery voltage with a multimeter at the same time.
-#   3. BATTERY_DIVIDER_RATIO = real_voltage / (raw/ADC_MAX_RAW * ADC_REF_V)
-#   4. Fine-tune BATTERY_SCALE/BATTERY_OFFSET afterwards if needed.
+# Battery voltage measurement using an external resistor divider.
+
 ADC_REF_V             = 3.6     # nRF52840 ADC uses a 3.6V internal reference by default
                                 # (0.6V bandgap, 1/6 gain → full scale = 3.6V). If readings
                                 # still seem off after recalibrating BATTERY_DIVIDER_RATIO,
@@ -142,7 +120,7 @@ class BTHomeSoilSensor:
         self._soil_adc.deinit()
         self._batt_adc.deinit()
 
-    # ── BLE Payload (identical BTHome v2 layout to the ESP32 build) ─
+    # ── BTHome v2 BLE advertisement ───────────────────────────────────
 
     @staticmethod
     def _build_obj_bytes(humidity, temperature, battery_v):
@@ -274,6 +252,7 @@ def main():
     time.sleep(0.1)
     sensor_power.deinit()
 
+    # Put the board into deep sleep until the next measurement cycle.
     print("Deep sleeping {}s...".format(SLEEP_S))
 
     time_alarm = alarm.time.TimeAlarm(
