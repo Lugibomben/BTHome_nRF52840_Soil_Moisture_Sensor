@@ -152,6 +152,9 @@ Current consumption depends on:
     • soil sensor used   
 Increasing SLEEP_S can greatly extend battery life.  
 
+This is the consumption with a 250mAh battery and a sleep time of 60 sec:  
+![alt text](Images/Consuption_time_250mah_60sec.png)
+
 **Included Files**  
 | File               | Description                                      |  
 | ------------------ | ------------------------------------------------ |  
