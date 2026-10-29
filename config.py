@@ -9,7 +9,7 @@ DEVICE_NAME = "nRF52840 Soil moisture sensor"
 # ── Timing ───────────────────────────────────────────────────────────────────
 ADV_DURATION_S = 5          # seconds to keep advertising each wake cycle
                             # Increase this if the Bluetooth proxy does not reliably receive the advertisement.
-SLEEP_S        = 60         # seconds to sleep between readings
+SLEEP_S        = 300         # seconds to sleep between readings
 
 # ── BTHome v2 encryption ─────────────────────────────────────────────────────
 # Set ENCRYPT = True and replace ENCRYPTION_KEY with your own 16-byte key.

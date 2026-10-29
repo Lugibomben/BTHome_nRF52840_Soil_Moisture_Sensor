@@ -33,7 +33,7 @@ Required components:
     • External battery   
     • Two resistors for the battery divider (recommended 1MΩ + 1MΩ 1/4W)  
     • Optional 3D printed shell  
-    [Cults3D with LIPO](https://cults3d.com/en/3d-model/gadget/nrf52840-bthome-soil-moisture-sensor-shell-for-lipo-battery)  
+    [Cults3D with LIPO](https://cults3d.com/:4703670)  
     ![Lipo sensor image](Images/Lipo_sensor_image.png)
 
 Example wiring:  
@@ -153,7 +153,9 @@ Current consumption depends on:
 Increasing SLEEP_S can greatly extend battery life.  
 
 This is the consumption with a 250mAh battery and a sleep time of 60 sec:  
-![alt text](Images/Consuption_time_250mah_60sec.png)
+![alt text](Images/Consuption_time_250mah_60sec.png)  
+This is the consumption with a 250mAh battery and a sleep time of 60 sec:  
+![alt text](Images/Consuption_time_250mah_300sec.png)
 
 **Included Files**  
 | File               | Description                                      |  
